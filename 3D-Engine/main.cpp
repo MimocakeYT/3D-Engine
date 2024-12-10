@@ -1,3 +1,6 @@
+// Made by Mimocake in 2024
+// Used tutorials of javidx9: https://www.youtube.com/watch?v=ih20l3pJoeU
+
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <iostream>
@@ -11,10 +14,9 @@ int main()
     mat4x4 proj_mat = mat4x4::get_proj_mat(1920, 1080, 0.1, 1000, 90);
 
     mesh TestMesh;
-    //if (!TestMesh.load_from_file((char*)"teapot.obj")) return 0;
-    TestMesh.define_as_cube();
+    if (!TestMesh.load_from_file((char*)"teapot.obj")) return 0;
 
-    float theta = 0;
+    float theta = 0; 
 
     bool outline_only = false;
     bool allow_mouse_movement = false;
@@ -37,7 +39,7 @@ int main()
     Vector2i mouse_offset;
 
     RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "3D Engine");
-    //window.setVerticalSyncEnabled(true);
+    window.setVerticalSyncEnabled(true);
     Mouse::setPosition(Vector2i(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), window);
     window.setMouseCursorVisible(false);
     allow_mouse_movement = true;
