@@ -104,7 +104,24 @@ public:
             if (line[0] == 'f')
             {
                 std::vector<int> f(3);
-                s >> j >> f[0] >> f[1] >> f[2];
+                bool flag = 0;
+                for (auto p : line)
+                {
+                    if (p == '/')
+                    {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    int foo;
+                    s >> j >> f[0] >> j >> foo >> f[1] >> j >> foo >> f[2] >> j >> foo;
+                }
+                else
+                {
+                    s >> j >> f[0] >> f[1] >> f[2];
+                }
                 triangle t(verts[f[0] - 1], verts[f[1] - 1], verts[f[2] - 1]);
                 this->tris.push_back(t);
             }

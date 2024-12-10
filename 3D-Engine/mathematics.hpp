@@ -19,6 +19,7 @@ public:
     friend vec3 operator - (vec3 v) { return v * -1; }
     friend float dot_prod(vec3 v1, vec3 v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
     friend vec3 cross_prod(vec3 a, vec3 b) { return vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+    float len() { return sqrt(x * x + y * y + z * z); }
     void norm() { *this /= sqrt(x * x + y * y + z * z); }
 };
 

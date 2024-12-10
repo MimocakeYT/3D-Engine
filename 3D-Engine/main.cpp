@@ -8,10 +8,11 @@ using namespace sf;
 int main()
 {
     vec3 camera_loc(0, -2.0, -5);
-    mat4x4 proj_mat = mat4x4::get_proj_mat();
+    mat4x4 proj_mat = mat4x4::get_proj_mat(1920, 1080, 0.1, 1000, 90);
 
     mesh TestMesh;
-    if (!TestMesh.load_from_file((char*)"teapot.obj")) return 0;
+    //if (!TestMesh.load_from_file((char*)"teapot.obj")) return 0;
+    TestMesh.define_as_cube();
 
     float theta = 0;
 
@@ -28,6 +29,7 @@ int main()
     light_dir.norm();
 
     Clock clock_for_movement;
+    Clock clock_for_FPS;
 
     const int WINDOW_HEIGHT = 1080;
     const int WINDOW_WIDTH = 1920;
@@ -35,7 +37,7 @@ int main()
     Vector2i mouse_offset;
 
     RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "3D Engine");
-    window.setVerticalSyncEnabled(true);
+    //window.setVerticalSyncEnabled(true);
     Mouse::setPosition(Vector2i(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), window);
     window.setMouseCursorVisible(false);
     allow_mouse_movement = true;
@@ -128,7 +130,7 @@ int main()
             new_tri.normal = cross_prod(new_tri.p[2] - new_tri.p[0], new_tri.p[1] - new_tri.p[0]);
             new_tri.normal.norm();
 
-            vec3 cam_dir = new_tri.p[0] - camera_loc;
+            vec3 cam_dir = (new_tri.p[0]+new_tri.p[1]+new_tri.p[2])/3 - camera_loc;
             if (dot_prod(new_tri.normal, cam_dir) < 0)
                 continue;
 
@@ -212,6 +214,11 @@ int main()
                 window.draw(tri);
             }
         }
+
+        int FPS = 1.0f / clock_for_FPS.getElapsedTime().asSeconds();
+        clock_for_FPS.restart();
+        string name = "FPS: " + to_string(FPS) + "; Triangles rendering: " + to_string(TestMesh.tris.size()) + "; Triangles drawing: " + to_string(to_draw.size());
+        window.setTitle(name);
     theta += 0.01 * allow_rotation;
     window.display();
     }
